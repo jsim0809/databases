@@ -41,16 +41,9 @@ module.exports = {
         // Send it back to the client
       });
     }, // a function which produces all the messages
-    post: function (user, callback) {
-      var sql = `INSERT INTO users (username) VALUES (${user.username})`;
-      db.connection.query(sql, function (error, results, fields) {
-        if (error) {
-          callback(error, null);
-        } else {
-          callback(null, 'HELLOOOOOOO PHONXAY');
-        }
-        // Send it back to the client
-      });
+    post: function (userToAdd) {
+      console.log('=========',userToAdd);
+
     }
   }
 };

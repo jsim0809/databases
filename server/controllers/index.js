@@ -49,8 +49,9 @@ module.exports = {
     },
 
     post: function (req, res) { // a function which handles posting a message to the database
-      res.send('===HELLO PHONXAAY');
-      console.log('sent message back!!!');
+      console.log('=========', req);
+      models.users.post(req.json.username);
+      // res.status().send();
     }
   }
 };
