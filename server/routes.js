@@ -3,15 +3,9 @@ var router = require('express').Router();
 
 //Connect controller methods to their corresponding routes
 // router.get('/messages', controller.messages.get);
-router.get('/messages', function (req, res) {
-  res.send('=========hello world1=========');
-  console.log('sent response 1');
-});
+router.get('/messages', controller.messages.get);
 
-router.post('/messages', function (req, res) {
-  res.send('=========hello world2=========');
-  console.log('sent response 2');
-});
+router.post('/messages', controller.messages.post);
 
 router.get('/users', function (req, res) {
   res.send('=========hello world3=========');

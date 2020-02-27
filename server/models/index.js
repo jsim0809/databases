@@ -16,15 +16,17 @@ module.exports = {
         // Send it back to the client
       });
     }, // a function which produces all the messages
-    post: function (message, callback) {
-      var sql = `INSERT INTO messages (messageText, roomname, userID) VALUES (${message.text}, ${message.roomname}, ${message.username})`;
-      db.connection.query(sql, function (error, results, fields) {
-        if (error) {
-          callback(error, null);
-        } else {
-          callback(null, null);
-        }
-        // Send it back to the client
+    post: function (message) {
+      var sql = `INSERT INTO messages (userID, messageText, roomname) VALUES ((SELECT id FROM users WHERE username = ${db.connection.escape(message.username)}), ${db.connection.escape(message.message)}, ${db.connection.escape(message.roomname)});`;
+      return new Promise((resolve, reject) => {
+        db.connection.query(sql, (error, results, fields) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+          // Send it back to the client
+        });
       });
     } // a function which can be used to insert a message into the database
   },
@@ -43,14 +45,27 @@ module.exports = {
       });
     }, // a function which produces all the messages
     post: function (userToAdd) {
-      var sql = `INSERT INTO users (id) VALUES (${message.body})`;
+      var check = `SELECT * FROM users WHERE username = ${db.connection.escape(userToAdd)};`;
+      var sql = `INSERT INTO users (username) VALUES (${db.connection.escape(userToAdd)});`;
       return new Promise((resolve, reject) => {
-        db.connection.query(sql, function (error, results, fields) {
+        db.connection.query(check, (error, results, fields) => {
           if (error) {
-            reject(error);
+            reject('error');
+          } else if (results.length) {
+            reject('duplicate entry');
           } else {
             resolve();
           }
+        });
+      }).then(() => {
+        return new Promise((resolve, reject) => {
+          db.connection.query(sql, (error, results, fields) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve();
+            }
+          });
         });
       });
     }

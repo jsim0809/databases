@@ -25,15 +25,14 @@ module.exports = {
     },
 
     post: function (req, res) { // a function which handles posting a message to the database
-      models.messages.post((err) => {
-        if (err) {
-          res.statusCode = 404;
-          res.end();
-        } else {
-          res.statusCode = 200;
-          res.end();
-        }
-      });
+      models.messages.post(req.body)
+        .then(() => {
+          res.sendStatus(201);
+        })
+        .catch(() => {
+          res.sendStatus(500);
+        });
+
     }
   },
   users: {
@@ -54,13 +53,17 @@ module.exports = {
     },
 
     post: function (req, res) { // a function which handles posting a message to the database
-      models.users.post(req.body)
+      models.users.post(req.body.username)
         .then(() => {
-          res.status().send();
+          res.sendStatus(201);
+        })
+        .catch((string) => {
+          if (string === 'duplicate entry') {
+            res.sendStatus(403);
+          } else {
+            res.sendStatus(500);
+          }
         });
-
-
-
     }
   }
 };

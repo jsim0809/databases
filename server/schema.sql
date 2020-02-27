@@ -6,14 +6,14 @@ USE chat;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username varchar(50)
+  username varchar(255)
 );
 
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  messageText varchar(50),
-  roomname varchar(50),
-  userID varchar(50)
+  messageText varchar(255),
+  roomname varchar(255),
+  userID INT NOT NULL REFERENCES users(id)
 );
 
 
