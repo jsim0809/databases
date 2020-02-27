@@ -47,7 +47,7 @@ module.exports = {
         if (error) {
           callback(error, null);
         } else {
-          callback(null, null);
+          callback(null, 'HELLOOOOOOO PHONXAY');
         }
         // Send it back to the client
       });
