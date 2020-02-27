@@ -1,6 +1,11 @@
 // SERVER >>>> CLIENT
 
 var models = require('../models');
+// var express = require('express');
+// var app = express();
+
+// app.use(express.json()); // for parsing application/json
+// app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 module.exports = {
   messages: {
@@ -49,9 +54,13 @@ module.exports = {
     },
 
     post: function (req, res) { // a function which handles posting a message to the database
-      console.log('=========', req);
-      models.users.post(req.json.username);
-      // res.status().send();
+      models.users.post(req.body)
+        .then(() => {
+          res.status().send();
+        });
+
+
+
     }
   }
 };

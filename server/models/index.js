@@ -2,6 +2,7 @@
 
 var db = require('../db');
 
+
 module.exports = {
   messages: {
     get: function (callback) {
@@ -42,8 +43,16 @@ module.exports = {
       });
     }, // a function which produces all the messages
     post: function (userToAdd) {
-      console.log('=========',userToAdd);
-
+      var sql = `INSERT INTO users (id) VALUES (${message.body})`;
+      return new Promise((resolve, reject) => {
+        db.connection.query(sql, function (error, results, fields) {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      });
     }
   }
 };
