@@ -6,7 +6,7 @@ USE chat;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username varchar(255)
+  username varchar(255) UNIQUE
 );
 
 CREATE TABLE messages (
