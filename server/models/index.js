@@ -22,7 +22,7 @@ module.exports = {
     post: function (message) {
 
       var insertUser = `INSERT IGNORE INTO users (username) VALUES (${db.connection.escape(message.username)});`;
-      var sql = `INSERT INTO messages (userID, messageText, roomname) VALUES ((SELECT id FROM users WHERE username = ${db.connection.escape(message.username)}), ${db.connection.escape(message.message)}, ${db.connection.escape(message.roomname)});`;
+      var sql = `INSERT INTO messages (userID, messageText, roomname) VALUES ((SELECT id FROM users WHERE username = ${db.connection.escape(message.username)}), ${db.connection.escape(message.text)}, ${db.connection.escape(message.roomname)});`;
 
       return new Promise((resolve, reject) => {
         db.connection.query(insertUser, (error, results, fields) => {
